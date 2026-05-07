@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenClass Sign Up</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f5f6fa;
+    margin: 0;
+    padding: 20px; /*  gives space on both sides */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Main container fix */
+.container {
+    width: 100%;
+    max-width: 380px;   /* controls width */
+    background: #fff;
+    padding: 25px 20px; /* inner spacing */
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+}
+
+/* Inputs */
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+/* Role buttons */
+.role {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0;
+}
+
+.role div {
+    flex: 1;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+    cursor: pointer;
+}
+
+.role .active {
+    border: 2px solid #1E88E5;
+}
+
+/* Button */
+.btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(to right, #1E88E5, #FF9800);
+    color: white;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+/* Google button */
+.google {
+    background: white;
+    border: 1px solid #ddd;
+    color: #555;
+}
+
+
+.center {
+    text-align: center;
+    margin: 10px 0;
+}
+.role {
+    display: flex;
+    justify-content: center;   /*  center horizontally */
+    align-items: center;
+    gap: 12px;
+    margin: 15px 0;
+}
+
+/* Control width so it looks clean */
+.role-option {
+    width: 120px;   /*  fixed width for perfect alignment */
+    text-align: center;
+}
+
+</style>
+
+<div class="container">
+    <h2>Create Account</h2>
+    <p style="text-align:center;">Join OpenClass today!</p>
+
+    <input type="text" placeholder="Full Name">
+    <input type="text" placeholder="Email / Phone number">
+    <input type="password" placeholder="Password">
+    <input type="password" placeholder="Confirm Password">
+
+    <p>I want to join as</p>
+
+    <div class="role">
+    <label class="role-option">
+        <input type="radio" name="role" value="student" checked>
+        <span>Student</span>
+    </label>
+
+    <label class="role-option">
+        <input type="radio" name="role" value="teacher">
+        <span>Teacher</span>
+    </label>
+</div>
+    <button class="btn">Sign Up</button>
+
+    <p style="text-align:center;">or continue with</p>
+
+    <button class="btn google">Continue with Google</button>
+
+    <p class="link">Already have an account? Login</p>
+</div>
+
+</body>
+</html>
