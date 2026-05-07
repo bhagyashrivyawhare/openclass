@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenClass Login</title>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #f5f6fa;
+    margin: 0;
+    padding: 20px; /*  adds margin on all sides */
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    min-height: 100vh; /*  better than height */
+}
+
+/*  Container Fix */
+.container {
+    width: 100%;
+    max-width: 360px;  /* prevents stretching */
+    background: #fff;
+    padding: 25px 20px; /* balanced spacing */
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    text-align: center;
+}
+
+/* Logo */
+.logo {
+    width: 80px;
+    margin-bottom: 10px;
+}
+
+/* Heading */
+h2 {
+    margin: 10px 0;
+}
+
+/* Inputs */
+input {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0; /* slightly increased spacing */
+    border-radius: 10px;
+    border: 1px solid #ddd;
+}
+
+/* Button */
+.btn {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(to right, #1E88E5, #FF9800);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 12px;
+}
+
+/* Google button */
+.google {
+    background: white;
+    border: 1px solid #ddd;
+    color: #555;
+}
+
+/* Links */
+.link {
+    font-size: 14px;
+    color: #1E88E5;
+    cursor: pointer;
+    margin-top: 8px;
+    display: inline-block;
+}
+
+/* Responsive tweak */
+@media (max-width: 400px) {
+    body {
+        padding: 15px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <img src="logo.png" class="logo">
+    <h2>Welcome Back 👋</h2>
+    <p>Login to continue learning</p>
+
+    <input type="text" placeholder="Email / Phone number">
+    <input type="password" placeholder="Password">
+
+    <p class="link">Forgot Password?</p>
+
+    <button class="btn">Login</button>
+
+    <p>or continue with</p>
+
+    <button class="btn google">Continue with Google</button>
+
+    <p>Don't have an account? <span class="link">Sign up</span></p>
+</div>
+
+</body>
+</html>
