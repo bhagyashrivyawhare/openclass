@@ -100,6 +100,46 @@
                 transform: translateY(0);
             }
         }
+        /* ==========================================
+SCREENSHOT / RECORDING PROTECTION
+========================================== */
+
+.security-blur {
+    filter: blur(40px) brightness(0.2);
+    pointer-events: none;
+    user-select: none;
+}
+
+.video-watermark {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.08;
+    font-size: 70px;
+    font-weight: 900;
+    color: white;
+    transform: rotate(-30deg);
+    text-transform: uppercase;
+    letter-spacing: 10px;
+}
+
+.screen-protected::before {
+    content: "Protected Content";
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.95);
+    z-index: 999999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30px;
+    font-weight: 900;
+    color: white;
+}
     </style>
 </head>
 
@@ -117,8 +157,13 @@
         <button onclick="closeVault()"
             class="absolute top-6 right-6 bg-white/10 hover:bg-red-500 text-white w-12 h-12 rounded-full flex items-center justify-center font-black z-[2100]">✕</button>
         <div class="w-full h-full flex items-center justify-center p-4">
-            <iframe id="vault-frame" class="w-full h-full max-w-7xl max-h-[90vh] border-none rounded-xl"
-                allow="autoplay; fullscreen" allowfullscreen></iframe>
+        <iframe
+         id="vault-frame"
+         class="w-full h-full max-w-7xl max-h-[90vh] border-none rounded-xl"
+         allow="autoplay; fullscreen"
+         sandbox="allow-scripts allow-same-origin allow-presentation"
+          allowfullscreen>
+       </iframe>
         </div>
     </div>
 
@@ -280,33 +325,44 @@ border border-brandOrange/20">
     </div>
 
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, createUserWithEmailAndPassword, onAuthStateChanged, signOut, GoogleAuthProvider, signInWithPopup, updatePassword } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
-        // import { getFirestore, doc, setDoc, getDoc, collection, addDoc, query, where, getDocs, updateDoc, increment, deleteDoc, arrayUnion, arrayRemove, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+   <script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.1/firebase-app.js";
+
 import {
-getFirestore,
-doc,
-setDoc,
-getDoc,
-collection,
-addDoc,
-query,
-where,
-getDocs,
-updateDoc,
-increment,
-deleteDoc,
-arrayUnion,
-arrayRemove,
-serverTimestamp,
-onSnapshot,
-orderBy
-}
-from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
+    getAuth,
+    signInWithEmailAndPassword,
+    createUserWithEmailAndPassword,
+    onAuthStateChanged,
+    signOut,
+    GoogleAuthProvider,
+    signInWithPopup,
+    updatePassword
+} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-auth.js";
+
+import {
+    getFirestore,
+    doc,
+    setDoc,
+    getDoc,
+    collection,
+    addDoc,
+    query,
+    where,
+    getDocs,
+    updateDoc,
+    increment,
+    deleteDoc,
+    arrayUnion,
+    arrayRemove,
+    serverTimestamp,
+    onSnapshot,
+    orderBy
+} from "https://www.gstatic.com/firebasejs/11.0.1/firebase-firestore.js";
 
         // --- PASTE YOUR FIREBASE CONFIG HERE ---
-const firebaseConfig = {
+
+     const firebaseConfig = {
   apiKey: "AIzaSyAE729BAWQ3z22VviTKTCleBX0IstMkWfY",
   authDomain: "openclass-e814a.firebaseapp.com",
   projectId: "openclass-e814a",
@@ -753,83 +809,115 @@ ${userMessage}
                 );
             }
         };
+        // ADVANCED SCREEN PROTECTION
+// ==========================================
 
-        // NEW: SCREEN PROTECTION & SECURITY FEATURES
-        // ==========================================
+// WATERMARK CREATE
 
-        // 1. Block Context Menu (Right Click)
-        document.addEventListener('contextmenu', e => e.preventDefault());
+const watermark = document.createElement('div');
 
-        // 2. Block Shortcuts (F12, PrintScreen, Ctrl+U, Ctrl+Shift+I)
-        document.addEventListener('keydown', (e) => {
-            // PrintScreen
-            if (e.key === 'PrintScreen') {
+watermark.className = 'video-watermark';
 
-                navigator.clipboard.writeText('');
+watermark.innerText =
+    'OPENCLASS • PROTECTED CONTENT';
 
-                toast("Screenshot Attempt Detected");
+document.body.appendChild(watermark);
 
-                e.preventDefault();
-            }
 
-            // F12
-            if (e.key === 'F12') {
+// DETECT SCREEN CAPTURE APPS (LIMITED)
 
-                e.preventDefault();
+setInterval(() => {
 
-                toast("Blocked");
-            }
+    if (
+        window.outerWidth - window.innerWidth > 160 ||
+        window.outerHeight - window.innerHeight > 160
+    ) {
 
-            // CTRL+U
-            if (e.ctrlKey && e.key.toLowerCase() === 'u') {
+        document.body.classList.add('security-blur');
 
-                e.preventDefault();
+        toast("Screen Recording / DevTools Detected");
 
-                toast("Blocked");
-            }
+    } else {
 
-            // CTRL+S
-            if (e.ctrlKey && e.key.toLowerCase() === 's') {
+        document.body.classList.remove('security-blur');
+    }
 
-                e.preventDefault();
+}, 1000);
 
-                toast("Blocked");
-            }
 
-            // CTRL+SHIFT+I
-            if (
-                e.ctrlKey &&
-                e.shiftKey &&
-                e.key.toLowerCase() === 'i'
-            ) {
+// BLUR VIDEO WHEN TAB HIDDEN
 
-                e.preventDefault();
+document.addEventListener('visibilitychange', () => {
 
-                toast("Blocked");
-            }
+    const vault = document.getElementById('media-vault');
 
-        });
+    if (document.hidden) {
 
-        
-        // 3. Tab Visibility & Recording Blur
-        // If user leaves the tab or opens a recording widget, blur the content
-        document.addEventListener('visibilitychange', () => {
-            const appEl = document.getElementById('app');
-            if (document.hidden) {
-                appEl.classList.add('security-blur');
-            } else {
-                appEl.classList.remove('security-blur');
-            }
-        });
+        vault.classList.add('security-blur');
 
-        // 4. Clear Clipboard on Copy attempt
-        document.addEventListener('copy', (e) => {
-            navigator.clipboard.writeText("Content Protected by OpenClass");
-            toast("Copying content is prohibited.");
-        });
+    } else {
 
-        // ==========================================
-        // END SECURITY BLOCK
+        vault.classList.remove('security-blur');
+    }
+
+});
+
+
+// DISABLE DRAGGING
+
+document.addEventListener('dragstart', (e) => {
+    e.preventDefault();
+});
+
+
+// BLOCK TEXT SELECTION
+
+document.addEventListener('selectstart', (e) => {
+    e.preventDefault();
+});
+
+
+// DETECT PRINT
+
+window.addEventListener('beforeprint', () => {
+
+    document.body.innerHTML =
+        '<h1 style="background:black;color:white;height:100vh;display:flex;align-items:center;justify-content:center;">Printing Blocked</h1>';
+
+});
+
+
+// EXTRA SHORTCUT BLOCKS
+
+document.addEventListener('keydown', (e) => {
+
+    if (
+        e.key === 'PrintScreen' ||
+        (e.metaKey && e.shiftKey && e.key === '3') ||
+        (e.metaKey && e.shiftKey && e.key === '4')
+    ) {
+
+        navigator.clipboard.writeText('');
+
+        toast("Screenshot Blocked");
+
+        e.preventDefault();
+    }
+
+});
+
+
+// AUTO HIDE VIDEO IF SCREEN SHRINKS
+
+window.addEventListener('resize', () => {
+
+    if (window.innerWidth < 300 || window.innerHeight < 300) {
+
+        document.body.classList.add('security-blur');
+
+    }
+
+});
     </script>
 </body>
 
