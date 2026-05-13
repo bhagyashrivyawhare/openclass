@@ -158,12 +158,12 @@ SCREENSHOT / RECORDING PROTECTION
             class="absolute top-6 right-6 bg-white/10 hover:bg-red-500 text-white w-12 h-12 rounded-full flex items-center justify-center font-black z-[2100]">✕</button>
         <div class="w-full h-full flex items-center justify-center p-4">
         <iframe
-         id="vault-frame"
-         class="w-full h-full max-w-7xl max-h-[90vh] border-none rounded-xl"
-         allow="autoplay; fullscreen"
-         sandbox="allow-scripts allow-same-origin allow-presentation"
-          allowfullscreen>
-       </iframe>
+    id="vault-frame"
+    class="w-full h-full max-w-7xl max-h-[90vh] border-none rounded-xl"
+    allow="autoplay"
+    allowfullscreen
+    sandbox="allow-scripts allow-same-origin allow-presentation">
+</iframe>
         </div>
     </div>
 
@@ -561,41 +561,49 @@ import {
                 </div>`;
         }
 
-       window.openResource = async (id, url, title) => {
+     window.openResource = async (id, url, title) => {
 
-    await updateDoc(doc(db, "content", id), {
-        views: increment(1)
-    });
-
-    let src = url;
+    await updateDoc(
+        doc(db, "content", id),
+        {
+            views: increment(1)
+        }
+    );
 
     let videoId = "";
 
-    if (url.includes('v=')) {
+    // NORMAL YOUTUBE LINK
+    if (url.includes("youtube.com/watch?v=")) {
 
-        videoId = url.split('v=')[1].split('&')[0];
-
+        videoId =
+            url.split("v=")[1].split("&")[0];
     }
 
-    else if (url.includes('youtu.be/')) {
+    // SHORT LINK
+    else if (url.includes("youtu.be/")) {
 
-        videoId = url.split('/').pop();
-
+        videoId =
+            url.split("youtu.be/")[1].split("?")[0];
     }
 
-    if (videoId) {
+    // SHORTS LINK
+    else if (url.includes("youtube.com/shorts/")) {
 
-        src =
-`https://www.youtube.com/embed/${videoId}?autoplay=1&controls=1&modestbranding=1&rel=0&showinfo=0&fs=0&iv_load_policy=3&disablekb=1`;
-
+        videoId =
+            url.split("/shorts/")[1].split("?")[0];
     }
 
-    document.getElementById('vault-frame').src = src;
+    // EMBED URL
+    const embedURL =
+`https://www.youtube.com/embed/${videoId}?autoplay=1&modestbranding=1&rel=0&controls=1&fs=0&disablekb=1`;
 
-    document.getElementById('media-vault')
-        .classList.remove('hidden');
+    document.getElementById("vault-frame").src =
+        embedURL;
+
+    document
+        .getElementById("media-vault")
+        .classList.remove("hidden");
 };
-
         window.openEdit = (id, t, u) => {
             const modal = document.getElementById('custom-modal');
             document.getElementById('modal-content').innerHTML = `
