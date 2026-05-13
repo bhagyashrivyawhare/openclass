@@ -849,22 +849,24 @@ ${userMessage}
 // OPENCLASS USER WATERMARK
 // ==========================================
 
-const watermark =
-    document.createElement('div');
+onAuthStateChanged(auth, async (user) => {
 
-watermark.className =
-    'video-watermark';
+    if (user) {
 
-// GET LOGIN USER EMAIL
-const loginEmail =
-    auth.currentUser?.email || "USER";
+        const watermark =
+            document.createElement('div');
 
-// SHOW WATERMARK
-watermark.innerText =
-    `OPENCLASS • ${loginEmail}`;
+        watermark.className =
+            'video-watermark';
 
-// ADD WATERMARK TO SCREEN
-document.body.appendChild(watermark);
+        watermark.innerText =
+            `OPENCLASS • ${user.email}`;
+
+        document.body.appendChild(watermark);
+
+    }
+
+});
 
 // DETECT SCREEN CAPTURE APPS (LIMITED)
 
