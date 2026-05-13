@@ -753,6 +753,83 @@ ${userMessage}
                 );
             }
         };
+
+        // NEW: SCREEN PROTECTION & SECURITY FEATURES
+        // ==========================================
+
+        // 1. Block Context Menu (Right Click)
+        document.addEventListener('contextmenu', e => e.preventDefault());
+
+        // 2. Block Shortcuts (F12, PrintScreen, Ctrl+U, Ctrl+Shift+I)
+        document.addEventListener('keydown', (e) => {
+            // PrintScreen
+            if (e.key === 'PrintScreen') {
+
+                navigator.clipboard.writeText('');
+
+                toast("Screenshot Attempt Detected");
+
+                e.preventDefault();
+            }
+
+            // F12
+            if (e.key === 'F12') {
+
+                e.preventDefault();
+
+                toast("Blocked");
+            }
+
+            // CTRL+U
+            if (e.ctrlKey && e.key.toLowerCase() === 'u') {
+
+                e.preventDefault();
+
+                toast("Blocked");
+            }
+
+            // CTRL+S
+            if (e.ctrlKey && e.key.toLowerCase() === 's') {
+
+                e.preventDefault();
+
+                toast("Blocked");
+            }
+
+            // CTRL+SHIFT+I
+            if (
+                e.ctrlKey &&
+                e.shiftKey &&
+                e.key.toLowerCase() === 'i'
+            ) {
+
+                e.preventDefault();
+
+                toast("Blocked");
+            }
+
+        });
+
+        
+        // 3. Tab Visibility & Recording Blur
+        // If user leaves the tab or opens a recording widget, blur the content
+        document.addEventListener('visibilitychange', () => {
+            const appEl = document.getElementById('app');
+            if (document.hidden) {
+                appEl.classList.add('security-blur');
+            } else {
+                appEl.classList.remove('security-blur');
+            }
+        });
+
+        // 4. Clear Clipboard on Copy attempt
+        document.addEventListener('copy', (e) => {
+            navigator.clipboard.writeText("Content Protected by OpenClass");
+            toast("Copying content is prohibited.");
+        });
+
+        // ==========================================
+        // END SECURITY BLOCK
     </script>
 </body>
 
