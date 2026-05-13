@@ -845,35 +845,25 @@ ${userMessage}
         };
         // ADVANCED SCREEN PROTECTION
 // ==========================================
-
-// WATERMARK CREATE
-
-
 // ==========================================
-// DYNAMIC USER WATERMARK
+// OPENCLASS USER WATERMARK
 // ==========================================
 
-const watermark = document.createElement('div');
+const watermark =
+    document.createElement('div');
 
-watermark.className = 'video-watermark';
+watermark.className =
+    'video-watermark';
 
-// GET CURRENT LOGIN USER
-const currentUser =
-    auth.currentUser;
-
-// USER EMAIL
-const userEmail =
-    currentUser?.email || "Unknown User";
-
-// USER NAME
-const userName =
-    profile?.name || "OpenClass User";
+// CURRENT LOGIN EMAIL
+const loginEmail =
+    auth.currentUser?.email || "unknown@openclass.com";
 
 // WATERMARK TEXT
 watermark.innerText =
-    `${userName} • ${userEmail}`;
+    `OPENCLASS • ${loginEmail}`;
 
-// ADD WATERMARK
+// ADD TO SCREEN
 document.body.appendChild(watermark);
 
 // DETECT SCREEN CAPTURE APPS (LIMITED)
