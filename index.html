@@ -855,15 +855,15 @@ const watermark =
 watermark.className =
     'video-watermark';
 
-// CURRENT LOGIN EMAIL
+// GET LOGIN USER EMAIL
 const loginEmail =
-    auth.currentUser?.email || "unknown@openclass.com";
+    auth.currentUser?.email || "USER";
 
-// WATERMARK TEXT
+// SHOW WATERMARK
 watermark.innerText =
     `OPENCLASS • ${loginEmail}`;
 
-// ADD TO SCREEN
+// ADD WATERMARK TO SCREEN
 document.body.appendChild(watermark);
 
 // DETECT SCREEN CAPTURE APPS (LIMITED)
