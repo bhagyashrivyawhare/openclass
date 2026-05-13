@@ -848,15 +848,25 @@ ${userMessage}
 
 // WATERMARK CREATE
 
+// WATERMARK CREATE
+
 const watermark = document.createElement('div');
 
 watermark.className = 'video-watermark';
 
+// GET LOGIN USER EMAIL
+
+const userEmail =
+    auth.currentUser?.email || "OPENCLASS USER";
+
+// WATERMARK TEXT
+
 watermark.innerText =
-    'OPENCLASS • PROTECTED CONTENT';
+    `OPENCLASS • ${userEmail}`;
+
+// ADD WATERMARK
 
 document.body.appendChild(watermark);
-
 
 // DETECT SCREEN CAPTURE APPS (LIMITED)
 
