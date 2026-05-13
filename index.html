@@ -140,6 +140,35 @@ SCREENSHOT / RECORDING PROTECTION
     font-weight: 900;
     color: white;
 }
+        .video-watermark {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+.video-watermark::before {
+    content: attr(data-text);
+
+    font-size: 80px;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 10px;
+
+    color: rgba(255, 255, 255, 0.08);
+
+    transform: rotate(-30deg);
+
+    white-space: nowrap;
+
+    text-align: center;
+}
 
 
     </style>
