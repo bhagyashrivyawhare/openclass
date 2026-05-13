@@ -153,23 +153,25 @@ SCREENSHOT / RECORDING PROTECTION
     overflow: hidden;
 }
 
-.video-watermark::before {
-    content: attr(data-text);
+.video-watermark {
+    position: fixed;
+    top: 50%;
+    left: 50%;
 
-    font-size: 40px;
-    font-weight: 700;
-    text-transform: lowercase;
-    letter-spacing: 10px;
+    transform: translate(-50%, -50%) rotate(-30deg);
 
-    color: rgba(255, 255, 255, 0.08);
+    pointer-events: none;
+    z-index: 9999;
 
-    transform: rotate(-30deg);
+    font-size: 35px; /* SMALL SIZE */
+    font-weight: 900;
+    letter-spacing: 6px;
+    text-transform: uppercase;
+
+    color: rgba(255,255,255,0.08);
 
     white-space: nowrap;
-
-    text-align: center;
 }
-
 
     </style>
 </head>
