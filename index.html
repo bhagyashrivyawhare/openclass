@@ -849,23 +849,31 @@ ${userMessage}
 // WATERMARK CREATE
 
 
+// ==========================================
+// DYNAMIC USER WATERMARK
+// ==========================================
 
 const watermark = document.createElement('div');
 
 watermark.className = 'video-watermark';
 
-// GET LOGIN USER EMAIL
+// GET CURRENT LOGIN USER
+const currentUser =
+    auth.currentUser;
 
+// USER EMAIL
 const userEmail =
-    auth.currentUser?.email || "OPENCLASS USER";
+    currentUser?.email || "Unknown User";
+
+// USER NAME
+const userName =
+    profile?.name || "OpenClass User";
 
 // WATERMARK TEXT
-
 watermark.innerText =
-    `OPENCLASS • ${userEmail}`;
+    `${userName} • ${userEmail}`;
 
 // ADD WATERMARK
-
 document.body.appendChild(watermark);
 
 // DETECT SCREEN CAPTURE APPS (LIMITED)
