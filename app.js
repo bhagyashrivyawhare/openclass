@@ -7,7 +7,8 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const provider = new GoogleAuthProvider();
-window.emailjs.init(emailConfig.publicKey);
+
+emailjs.init(emailConfig.publicKey);
 
 export { 
     doc, setDoc, getDoc, collection, addDoc, query, where, getDocs, updateDoc, 
